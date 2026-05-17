@@ -1,0 +1,43 @@
+{
+  "name": "billin-system-admin",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ebay/nice-modal-react": "^1.2.13",
+    "@hookform/resolvers": "^3.3.4",
+    "@nextui-org/react": "^2.2.10",
+    "@tanstack/react-query": "^5.45.1",
+    "axios": "^1.7.2",
+    "cookie": "^0.7.2",
+    "date-fns": "^3.6.0",
+    "framer-motion": "^11.2.13",
+    "next": "14.1.4",
+    "next-nprogress-bar": "^2.3.13",
+    "next-themes": "^0.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.3",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.2.1",
+    "rizzui": "^0.8.4",
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.7",
+    "@types/cookie": "^0.6.0",
+    "@types/node": "^20.14.9",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.4"
+  }
+}
