@@ -1,0 +1,33 @@
+# Dependencies and build output — rebuilt inside Docker
+node_modules
+.next
+.pnpm-store
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Environment files — provided at runtime via docker-compose env_file
+.env
+.env.*
+!.env.example
+
+# Docker files themselves
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Dev tooling / editor
+.DS_Store
+*.log
+npm-debug.log*
+pnpm-debug.log*
+tsconfig.tsbuildinfo
+coverage
+.nyc_output
+.vscode
+.idea
+
+# Docs
+*.md

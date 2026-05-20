@@ -1,0 +1,26 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3294:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+
+    # ── Security hardening ──────────────────────────────────────────────────
+    # Prevent the process from gaining new privileges (e.g. via setuid binaries)
+    security_opt:
+      - no-new-privileges:true
+    # Drop all Linux capabilities; the Node server needs none of them
+    cap_drop:
+      - ALL
+    # Limit log size to prevent disk exhaustion
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
