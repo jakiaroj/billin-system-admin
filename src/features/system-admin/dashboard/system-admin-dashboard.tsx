@@ -76,7 +76,7 @@ export default function SystemAdminDashboard() {
           </Text>
         </div>
         <div className="flex gap-3">
-          <Button
+          {/* <Button
             variant="outline"
             onClick={handleSeedTenants}
             isLoading={seedTenantsMutation.isPending}
@@ -85,7 +85,7 @@ export default function SystemAdminDashboard() {
           </Button>
           <Button onClick={() => createTenantModal.show({ title: "Create Tenant" })}>
             Create Tenant
-          </Button>
+          </Button> */}
           <Button
             variant="outline"
             onClick={handleLogout}
