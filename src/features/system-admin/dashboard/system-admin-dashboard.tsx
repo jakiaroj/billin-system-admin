@@ -1,24 +1,31 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import { useSystemAdminAuth } from "@/providers/SystemAdminAuthProvider";
 import useFetchTenants from "@/api/hooks/system-admin/useFetchTenants";
 import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 import { Button, Text, Title } from "rizzui";
 import StatisticsCards from "./statistics-cards";
 import TenantsTable from "./tenants-table";
+import TenantFiltersBar from "./tenant-filters";
 import CreateTenantModal from "./create-tenant-modal";
+import AdminSubscribeModal from "./admin-subscribe-modal";
 import { useModal } from "@ebay/nice-modal-react";
 import ActionModal from "@/components/Modal/ActionModal";
 import useSeedTenants from "@/api/hooks/system-admin/useSeedTenants";
 import { errorHandler } from "@/utils/errorHandler";
 import toast from "react-hot-toast";
 import { PiSignOut, PiArrowClockwise } from "react-icons/pi";
+import { TenantFilters } from "@/types/system-admin";
 
 export default function SystemAdminDashboard() {
   const { user, logout } = useSystemAdminAuth();
-  const { data, isLoading } = useFetchTenants();
+  const [filters, setFilters] = useState<TenantFilters>({});
+  const { data, isLoading } = useFetchTenants(filters);
+  const handleFiltersChange = useCallback((f: TenantFilters) => setFilters(f), []);
   const seedTenantsMutation = useSeedTenants();
   const createTenantModal = useModal(CreateTenantModal);
+  const adminSubscribeModal = useModal(AdminSubscribeModal);
   const actionModal = useModal(ActionModal);
 
   const tenants = data?.tenants || [];
@@ -91,7 +98,12 @@ export default function SystemAdminDashboard() {
       </div>
 
       <StatisticsCards tenants={tenants} />
-      <TenantsTable tenants={tenants} isLoading={isLoading} />
+      <TenantFiltersBar onFiltersChange={handleFiltersChange} />
+      <TenantsTable
+        tenants={tenants}
+        isLoading={isLoading}
+        onSubscribe={(tenant) => adminSubscribeModal.show({ tenant })}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next-nprogress-bar";
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { PropsWithChildren, createContext, useContext, useState, useEffect } from "react";
 import { serialize, parse } from "cookie";
 import toast from "react-hot-toast";
 import { SystemAdmin } from "@/types/system-admin";
@@ -27,19 +27,16 @@ const SystemAdminAuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const client = useQueryClient();
 
-  const getInitialAuthState = () => {
-    if (typeof window !== "undefined") {
-      const cookies = parse(typeof document !== "undefined" ? document.cookie : "");
-      const initialUser = cookies.systemAdminUser
-        ? JSON.parse(cookies.systemAdminUser)
-        : null;
-      const initialToken = cookies.systemAdminToken || null;
-      return { user: initialUser, token: initialToken };
-    }
-    return { user: null, token: null };
-  };
+  const [authState, setAuthState] = useState<{ user: ISystemAdminUser | null; token: string | null }>({ user: null, token: null });
 
-  const [authState, setAuthState] = useState(getInitialAuthState);
+  useEffect(() => {
+    const cookies = parse(document.cookie);
+    const initialUser = cookies.systemAdminUser
+      ? JSON.parse(cookies.systemAdminUser)
+      : null;
+    const initialToken = cookies.systemAdminToken || null;
+    setAuthState({ user: initialUser, token: initialToken });
+  }, []);
 
   const login = (user: ISystemAdminUser, token: string, route: string) => {
     document.cookie = serialize("systemAdminUser", JSON.stringify(user), {
