@@ -19,6 +19,7 @@ type Value = {
   logout: (route: string, message: string) => void;
   token: string | null;
   user: ISystemAdminUser | null;
+  initialized: boolean;
 };
 
 const SystemAdminAuthContext = createContext<Value | undefined>(undefined);
@@ -27,7 +28,7 @@ const SystemAdminAuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const client = useQueryClient();
 
-  const [authState, setAuthState] = useState<{ user: ISystemAdminUser | null; token: string | null }>({ user: null, token: null });
+  const [authState, setAuthState] = useState<{ user: ISystemAdminUser | null; token: string | null; initialized: boolean }>({ user: null, token: null, initialized: false });
 
   useEffect(() => {
     const cookies = parse(document.cookie);
@@ -35,7 +36,7 @@ const SystemAdminAuthProvider = ({ children }: PropsWithChildren) => {
       ? JSON.parse(cookies.systemAdminUser)
       : null;
     const initialToken = cookies.systemAdminToken || null;
-    setAuthState({ user: initialUser, token: initialToken });
+    setAuthState({ user: initialUser, token: initialToken, initialized: true });
   }, []);
 
   const login = (user: ISystemAdminUser, token: string, route: string) => {
@@ -72,7 +73,7 @@ const SystemAdminAuthProvider = ({ children }: PropsWithChildren) => {
     }, 100);
   };
 
-  const value = { login, logout, token: authState.token, user: authState.user };
+  const value = { login, logout, token: authState.token, user: authState.user, initialized: authState.initialized };
 
   return (
     <SystemAdminAuthContext.Provider value={value}>

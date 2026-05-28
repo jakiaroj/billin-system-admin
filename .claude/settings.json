@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/jakiaroj/Documents/workspace/billin_system_admin/src/app/dashboard/tenants/\\\\[id\\\\] && mkdir -p /Users/jakiaroj/Documents/workspace/billin_system_admin/src/features/system-admin/tenant-details)",
+      "Bash(node -e \"const r = require\\('/Users/jakiaroj/Documents/workspace/billin_system_admin/node_modules/rizzui/dist/index.js'\\); console.log\\(Object.keys\\(r\\).filter\\(k => /switch/i.test\\(k\\)\\)\\)\")"
+    ],
+    "additionalDirectories": [
+      "/Users/jakiaroj/Documents/workspace/billin_system_admin/src/app/dashboard/tenants"
+    ]
+  }
+}
