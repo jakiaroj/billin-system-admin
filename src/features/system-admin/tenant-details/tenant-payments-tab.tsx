@@ -13,7 +13,7 @@ function PaymentStatusBadge({ status }: { status: string }) {
     status === "paid" ? "success"
     : status === "pending" ? "warning"
     : status === "failed" ? "danger"
-    : "default";
+    : "secondary";
   return (
     <Badge color={color} variant="flat" className="capitalize">
       {status}

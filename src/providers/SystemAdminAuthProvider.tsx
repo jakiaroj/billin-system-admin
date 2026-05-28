@@ -48,7 +48,7 @@ const SystemAdminAuthProvider = ({ children }: PropsWithChildren) => {
       path: "/",
       sameSite: "strict",
     });
-    setAuthState({ user, token });
+    setAuthState({ user, token, initialized: true });
     setTimeout(() => {
       window.location.href = route || "/dashboard";
     }, 100);
@@ -65,7 +65,7 @@ const SystemAdminAuthProvider = ({ children }: PropsWithChildren) => {
       maxAge: -1,
       sameSite: "strict",
     });
-    setAuthState({ user: null, token: null });
+    setAuthState({ user: null, token: null, initialized: true });
     router.push(route || "/login");
     client.clear();
     setTimeout(() => {
