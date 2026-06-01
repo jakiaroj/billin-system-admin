@@ -3,8 +3,9 @@
 import { Tenant } from "@/types/system-admin";
 import { differenceInDays, format } from "date-fns";
 import { Badge, Button } from "rizzui";
-import { PiCreditCard, PiCheckCircle, PiXCircle } from "react-icons/pi";
+import { PiCreditCard, PiCheckCircle, PiXCircle, PiEye } from "react-icons/pi";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface TenantsTableProps {
   tenants: Tenant[];
@@ -50,6 +51,7 @@ function TrialDaysRemaining({ endsAt }: { endsAt: string }) {
 }
 
 export default function TenantsTable({ tenants, isLoading, onSubscribe }: TenantsTableProps) {
+  const router = useRouter();
   if (isLoading) {
     return (
       <div className="rounded-lg border border-gray-200 bg-white p-6">
@@ -187,15 +189,26 @@ export default function TenantsTable({ tenants, isLoading, onSubscribe }: Tenant
 
                 {/* Actions */}
                 <td className="py-3">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onSubscribe(tenant)}
-                    className="flex items-center gap-1.5"
-                  >
-                    <PiCreditCard className="h-4 w-4" />
-                    Subscribe
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => onSubscribe(tenant)}
+                      className="flex items-center gap-1.5"
+                    >
+                      <PiCreditCard className="h-4 w-4" />
+                      Subscribe
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => router.push(`/dashboard/tenants/${tenant.id}`)}
+                      className="flex items-center gap-1.5"
+                    >
+                      <PiEye className="h-4 w-4" />
+                      View Details
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}

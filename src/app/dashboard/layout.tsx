@@ -7,19 +7,17 @@ import { useRouter } from "next-nprogress-bar";
 import { useEffect } from "react";
 
 function ProtectedLayout({ children }: { children: React.ReactNode }) {
-  const { token, user } = useSystemAdminAuth();
+  const { token, user, initialized } = useSystemAdminAuth();
   const router = useRouter();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!token || !user) {
-        router.push("/login");
-      }
-    }, 100);
-    return () => clearTimeout(timer);
-  }, [token, user, router]);
+    if (!initialized) return;
+    if (!token || !user) {
+      router.push("/login");
+    }
+  }, [token, user, initialized, router]);
 
-  if (!token || !user) {
+  if (!initialized || !token || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <p className="text-gray-500">Loading...</p>
