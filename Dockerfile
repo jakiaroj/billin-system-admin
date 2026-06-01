@@ -3,14 +3,11 @@
 # • Multi-stage build: build tools never reach the production image.
 # • pnpm --frozen-lockfile: exact versions from pnpm-lock.yaml; no silent upgrades.
 # • Final stage runs as the built-in unprivileged "node" user (uid 1000).
-# • To pin against tag mutation, replace "22-slim" with a digest:
-#   node:22-slim@sha256:<hash>  (check https://hub.docker.com/_/node/tags)
+# • Base image is pinned to a digest (node:lts-alpine3.23@sha256:...) to prevent tag mutation.
 # ────────────────────────────────────────────────────────────────────────────
 
-ARG NODE_VERSION=22-slim
-
 # ── Stage 1: enable pnpm via corepack ────────────────────────────────────────
-FROM node:${NODE_VERSION} AS base
+FROM node:lts-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14 AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -31,7 +28,7 @@ ENV NODE_ENV=production
 RUN pnpm run build
 
 # ── Stage 4: production runner (minimal, no build tools) ────────────────────
-FROM node:${NODE_VERSION} AS runner
+FROM node:lts-alpine3.23@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14 AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
