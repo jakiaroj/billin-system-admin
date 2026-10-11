@@ -254,3 +254,69 @@ export interface TenantFeaturesResponse {
   status: string;
   features: TenantFeature[];
 }
+
+export type AttendanceDeviceStatus = "PENDING" | "ACTIVE" | "DISABLED";
+
+export type AttendanceDeviceSyncState = "SYNCING" | "IDLE" | "DISABLED" | "NOT_ASSIGNED";
+
+export interface AttendanceDeviceSyncCount {
+  stored: number;
+  // null until the device reports its own totals (some firmware never does)
+  on_device: number | null;
+}
+
+export interface AttendanceDeviceSync {
+  state: AttendanceDeviceSyncState;
+  percent: number | null;
+  people: AttendanceDeviceSyncCount;
+  fingerprints: AttendanceDeviceSyncCount;
+  scans: AttendanceDeviceSyncCount;
+  last_upload_at: string | null;
+  firmware: string | null;
+  reported_at: string | null;
+}
+
+export interface AttendanceDevice {
+  id: number;
+  serial_no: string;
+  tenant_id: number | null;
+  tenant_name: string;
+  name: string | null;
+  status: AttendanceDeviceStatus;
+  last_ip: string | null;
+  last_seen_at: string | null;
+  last_seen_at_bs?: string | null;
+  assigned_at: string | null;
+  assigned_at_bs?: string | null;
+  created_at: string;
+  created_at_bs?: string;
+  updated_at: string;
+  updated_at_bs?: string;
+  sync?: AttendanceDeviceSync;
+}
+
+export interface AttendanceDevicesResponse {
+  state: boolean;
+  status: string;
+  message?: string;
+  data: AttendanceDevice[];
+}
+
+export interface AttendanceDeviceResponse {
+  state: boolean;
+  status: string;
+  message?: string;
+  data: AttendanceDevice;
+}
+
+export interface AssignAttendanceDeviceRequest {
+  deviceId: number;
+  tenant_id: number;
+  name?: string;
+}
+
+export interface RebuildPermissionsResponse {
+  state: boolean;
+  status: string;
+  message?: string;
+}

@@ -15,11 +15,13 @@ import ActionModal from "@/components/Modal/ActionModal";
 import useSeedTenants from "@/api/hooks/system-admin/useSeedTenants";
 import { errorHandler } from "@/utils/errorHandler";
 import toast from "react-hot-toast";
-import { PiSignOut, PiArrowClockwise } from "react-icons/pi";
+import { PiSignOut, PiArrowClockwise, PiFingerprint } from "react-icons/pi";
+import { useRouter } from "next/navigation";
 import { TenantFilters } from "@/types/system-admin";
 
 export default function SystemAdminDashboard() {
   const { user, logout } = useSystemAdminAuth();
+  const router = useRouter();
   const [filters, setFilters] = useState<TenantFilters>({});
   const { data, isLoading } = useFetchTenants(filters);
   const handleFiltersChange = useCallback((f: TenantFilters) => setFilters(f), []);
@@ -86,6 +88,14 @@ export default function SystemAdminDashboard() {
           <Button onClick={() => createTenantModal.show({ title: "Create Tenant" })}>
             Create Tenant
           </Button> */}
+          <Button
+            variant="outline"
+            onClick={() => router.push("/dashboard/attendance-devices")}
+            className="flex items-center gap-2"
+          >
+            <PiFingerprint className="h-4 w-4" />
+            Attendance Devices
+          </Button>
           <Button
             variant="outline"
             onClick={handleLogout}
